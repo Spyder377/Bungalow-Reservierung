@@ -1,0 +1,223 @@
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
+import javax.print.attribute.TextSyntax;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.util.InputMismatchException;
+import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JTextPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import java.awt.GridBagLayout;
+import java.awt.Dimension;
+
+public class VorlageGUI extends JFrame {
+	private JTextField textBungalowNr;
+	private JTextField textStartWoche;
+	private JTextField textEndWoche;
+	private JTextField textAnzahlPersonen;
+	private JTextArea textRueckmeldung;
+	private int [][] reservierungen = new int[1000][4];
+	
+	private boolean reservierungerfolgreich = false;
+	private boolean reservierungerfolgreich2 = false;
+	private JTextField textBungalowNr2;
+
+
+
+	public static void main(String[] args) {
+
+		
+	
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					VorlageGUI frame = new VorlageGUI();
+					frame.setVisible(true);
+					frame.pack();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	
+	public VorlageGUI() {
+
+		setPreferredSize(new Dimension(1000, 450));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+	
+		
+		JButton btnReservierungDurchfuehren = new JButton("Reservierung Durchf\u00FChren");
+		btnReservierungDurchfuehren.setBounds(123, 250, 200, 60);
+		btnReservierungDurchfuehren.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				while( reservierungerfolgreich== false )
+				{
+					
+					
+					if(reservierungen[Integer.parseInt(textBungalowNr.getText())][0] == 0)
+					{
+					
+				
+					reservierungen[Integer.parseInt(textBungalowNr.getText())][0]=Integer.parseInt(textBungalowNr.getText()) ;
+					
+					reservierungen[Integer.parseInt(textBungalowNr.getText())][1]=Integer.parseInt(textStartWoche.getText()) ;
+					
+					reservierungen[Integer.parseInt(textBungalowNr.getText())][2]=Integer.parseInt(textEndWoche.getText()) ;
+					
+					reservierungen[Integer.parseInt(textBungalowNr.getText())][3]=Integer.parseInt(textAnzahlPersonen.getText()) ;
+					
+					if(reservierungen[Integer.parseInt(textBungalowNr.getText())][1] > reservierungen[Integer.parseInt(textBungalowNr.getText())][2])
+					{
+						textRueckmeldung.setText("Kontrollieren Sie Ihre Eingabe!");
+						reservierungen[Integer.parseInt(textBungalowNr.getText())][0]=0 ;
+						
+						reservierungen[Integer.parseInt(textBungalowNr.getText())][1]=0 ;
+						
+						reservierungen[Integer.parseInt(textBungalowNr.getText())][2]=0 ;
+						
+						reservierungen[Integer.parseInt(textBungalowNr.getText())][3]=0 ;
+						
+					}
+					if(reservierungen[Integer.parseInt(textBungalowNr.getText())][3] > 5)
+					{
+						textRueckmeldung.setText("Personen Anzahl ungültig!"+"\n"+
+												"Max 5 Personen pro Bungalow");
+						reservierungen[Integer.parseInt(textBungalowNr.getText())][0]=0 ;
+						
+						reservierungen[Integer.parseInt(textBungalowNr.getText())][1]=0 ;
+						
+						reservierungen[Integer.parseInt(textBungalowNr.getText())][2]=0 ;
+						
+						reservierungen[Integer.parseInt(textBungalowNr.getText())][3]=0 ;
+					}
+					if(reservierungen[Integer.parseInt(textBungalowNr.getText())][0] > 10)
+					{
+						textRueckmeldung.setText("Bungalow Nummer ungültig!"+"\n"+
+												"Bitte Nummer von 1-10 eingeben");
+						reservierungen[Integer.parseInt(textBungalowNr.getText())][0]=0 ;
+						
+						reservierungen[Integer.parseInt(textBungalowNr.getText())][1]=0 ;
+						
+						reservierungen[Integer.parseInt(textBungalowNr.getText())][2]=0 ;
+						
+						reservierungen[Integer.parseInt(textBungalowNr.getText())][3]=0 ;
+					}
+					
+					textBungalowNr.setText(null);
+					textStartWoche.setText(null);
+					textEndWoche.setText(null);
+					textAnzahlPersonen.setText(null);
+					reservierungerfolgreich= true;
+					
+					
+					}
+					else
+					{
+						textRueckmeldung.setText("Bungalow schon reserviert!"+"\n"+
+													"Versuchen Sie ein anderes "+"\n"+ "Bungalow.");
+						reservierungerfolgreich= true;
+						
+							
+			
+					}
+					
+					
+				
+					
+				}
+				reservierungerfolgreich =false;
+				
+			
+				
+				
+				
+				
+				
+				
+			}
+			}
+		);
+		getContentPane().setLayout(null);
+		getContentPane().add(btnReservierungDurchfuehren);
+		
+		textBungalowNr = new JTextField();
+		textBungalowNr.setBounds(159, 21, 164, 40);
+		getContentPane().add(textBungalowNr);
+		textBungalowNr.setColumns(10);
+		
+		textStartWoche = new JTextField();
+		textStartWoche.setBounds(159, 72, 164, 40);
+		textStartWoche.setColumns(10);
+		getContentPane().add(textStartWoche);
+		
+		JLabel lblBungalowNr = new JLabel("Bungalow-Nummer:");
+		lblBungalowNr.setBounds(27, 21, 100, 40);
+		getContentPane().add(lblBungalowNr);
+		
+		JLabel lblStartWoche = new JLabel("Start-Woche:");
+		lblStartWoche.setBounds(27, 72, 100, 40);
+		getContentPane().add(lblStartWoche);
+		
+		JLabel lblEndWoche = new JLabel("End-Woche:");
+		lblEndWoche.setBounds(27, 123, 100, 40);
+		getContentPane().add(lblEndWoche);
+		
+		textEndWoche = new JTextField();
+		textEndWoche.setColumns(10);
+		textEndWoche.setBounds(159, 123, 164, 40);
+		getContentPane().add(textEndWoche);
+		
+		textAnzahlPersonen = new JTextField();
+		textAnzahlPersonen.setColumns(10);
+		textAnzahlPersonen.setBounds(159, 173, 164, 40);
+		getContentPane().add(textAnzahlPersonen);
+		
+		JLabel lblAnzahlPersonen = new JLabel("Anzahl Personen:");
+		lblAnzahlPersonen.setBounds(27, 174, 100, 40);
+		getContentPane().add(lblAnzahlPersonen);
+		
+		textRueckmeldung = new JTextArea();
+		textRueckmeldung.setColumns(10);
+		textRueckmeldung.setBounds(516, 72, 200, 150);
+		getContentPane().add(textRueckmeldung);
+		
+		JButton btnAuswertung = new JButton("Auswertung");
+		btnAuswertung.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				textRueckmeldung.setText(
+						"Bungalow Nr: " + reservierungen[Integer.parseInt(textBungalowNr2.getText())][0] +"\n"+
+						"Startwoche: " + reservierungen[Integer.parseInt(textBungalowNr2.getText())][1] +"\n"+			
+						"EndWoche: " + reservierungen[Integer.parseInt(textBungalowNr2.getText())][2] +	"\n"+
+						"Anzahl Personen: " + reservierungen[Integer.parseInt(textBungalowNr2.getText())][3]+"\n");
+				
+				
+				
+				
+				
+				
+			}
+		});
+		btnAuswertung.setBounds(516, 250, 200, 60);
+		getContentPane().add(btnAuswertung);
+		
+		textBungalowNr2 = new JTextField();
+		textBungalowNr2.setBounds(614, 31, 86, 20);
+		getContentPane().add(textBungalowNr2);
+		textBungalowNr2.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Bungalow Nr.");
+		lblNewLabel.setBounds(526, 28, 78, 27);
+		getContentPane().add(lblNewLabel);
+	}
+}
